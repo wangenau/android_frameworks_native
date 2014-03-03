@@ -48,9 +48,11 @@
 #include "RotationVectorSensor.h"
 #include "SensorFusion.h"
 #include "SensorService.h"
+#ifdef USE_LEGACY_SENSORS_FUSION
 #include "legacy/LegacyGravitySensor.h"
 #include "legacy/LegacyLinearAccelerationSensor.h"
 #include "legacy/LegacyRotationVectorSensor.h"
+#endif
 
 namespace android {
 // ---------------------------------------------------------------------------
@@ -160,6 +162,7 @@ void SensorService::onFirstRef()
                 registerVirtualSensor( new CorrectedGyroSensor(list, count) );
                 registerVirtualSensor( new GyroDriftSensor() );
             }
+#ifdef USE_LEGACY_SENSORS_FUSION
             else
             {
                 Sensor aSensor;
@@ -182,6 +185,7 @@ void SensorService::onFirstRef()
                     mUserSensorList.add(aSensor);
                 }
             }
+#endif
 
             // debugging sensor list
             mUserSensorListDebug = mSensorList;
